@@ -46,6 +46,8 @@ void SYSTEM_Initialize(void)
     PIN_MANAGER_Initialize();
     I2C0_Initialize();
     RTC_Initialize();
+    USART1_Initialize();
+    VREF_Initialize();
     CPUINT_Initialize();
 }
 

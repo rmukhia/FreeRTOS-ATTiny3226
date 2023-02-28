@@ -3,7 +3,7 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>WS3226</name>
+            <name>FreeRTOS-ATTiny3226</name>
             <creation-uuid>ead8d631-5af7-49b4-a8a8-14ca6174c4a5</creation-uuid>
             <make-project-type>0</make-project-type>
             <sourceEncoding>ISO-8859-1</sourceEncoding>

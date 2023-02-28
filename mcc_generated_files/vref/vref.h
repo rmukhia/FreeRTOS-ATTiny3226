@@ -1,13 +1,13 @@
 /**
-  * CLKCTRL Generated Driver File
-  *
-  * @file clkctrl.c
-  *
-  * @ingroup clkctrl
-  *
-  * @brief This file contains the driver code for CLKCTRL module.
-  *
-  * @version CLKCTRL Driver Version 1.0.2
+ * VREF Generated Driver API Header File
+ * 
+ * @file vref.h
+ * 
+ * @defgroup  vref VREF
+ * 
+ * @brief This is the generated header file for the VREF module.
+ *
+ * @version VREF Driver Version 1.0.0
 */
 /*
 © [2023] Microchip Technology Inc. and its subsidiaries.
@@ -31,28 +31,36 @@
 */
 
 
-#include "../clock.h"
+#ifndef VREF_H_INCLUDED
+#define VREF_H_INCLUDED
 
-void CLOCK_Initialize(void)
-{
-    // Set the CLKCTRL module to the options selected in the user interface.
-    
-    //CLKOUT disabled; CLKSEL 20MHz oscillator; 
-    ccp_write_io((void*)&(CLKCTRL.MCLKCTRLA),0x0);
-    //PDIV 2X; PEN enabled; 
-    ccp_write_io((void*)&(CLKCTRL.MCLKCTRLB),0x1);
-    //LOCKEN disabled; 
-    ccp_write_io((void*)&(CLKCTRL.MCLKLOCK),0x0);
-    //
-    ccp_write_io((void*)&(CLKCTRL.MCLKSTATUS),0x0);
-    //RUNSTDBY disabled; 
-    ccp_write_io((void*)&(CLKCTRL.OSC20MCTRLA),0x0);
-    //RUNSTDBY disabled; 
-    ccp_write_io((void*)&(CLKCTRL.OSC32KCTRLA),0x0);
-    //ENABLE disabled; CSUT 1K; RUNSTDBY disabled; SEL disabled; 
-    ccp_write_io((void*)&(CLKCTRL.XOSC32KCTRLA),0x0);
+/**
+  Section: Included Files
+*/
+
+#include "../system/utils/compiler.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/**
+  Section: VREF APIs
+*/
+
+/**
+ * @ingroup vref
+ * @brief  This routine initializes the VREF and must be called only once during system initialization.
+ * @param int8_t
+ * @return void
+ */
+int8_t VREF_Initialize(void);
+
+#ifdef __cplusplus
 }
+#endif
 
+#endif /* VREF_H_INCLUDED */
 /**
  End of File
 */

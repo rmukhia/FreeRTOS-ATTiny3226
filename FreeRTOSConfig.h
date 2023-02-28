@@ -56,8 +56,9 @@
 For other frequency values, update clock_config.h with your own settings */
 #define configCPU_CLOCK_HZ 10000000
 
-#define configTICK_RATE_HZ 1000
+#define configTICK_RATE_HZ 128
 #define configMAX_PRIORITIES 4
+#define configSTACK_DEPTH_TYPE uint16_t
 #define configMINIMAL_STACK_SIZE 120
 #define configMAX_TASK_NAME_LEN 8
 #define configUSE_16_BIT_TICKS 1
@@ -74,15 +75,15 @@ For other frequency values, update clock_config.h with your own settings */
 #define configNUM_THREAD_LOCAL_STORAGE_POINTERS 0
 
 /* Memory allocation related definitions. */
-#define configSUPPORT_STATIC_ALLOCATION 0
+#define configSUPPORT_STATIC_ALLOCATION 1
 #define configSUPPORT_DYNAMIC_ALLOCATION 1
-#define configTOTAL_HEAP_SIZE 0x1000
+#define configTOTAL_HEAP_SIZE 0x500
 #define configAPPLICATION_ALLOCATED_HEAP 0
 
 /* Hook function related definitions. */
 #define configUSE_IDLE_HOOK 0
-#define configUSE_TICK_HOOK 0
-#define configCHECK_FOR_STACK_OVERFLOW 0
+#define configUSE_TICK_HOOK 1
+#define configCHECK_FOR_STACK_OVERFLOW 1
 #define configUSE_MALLOC_FAILED_HOOK 0
 #define configUSE_DAEMON_TASK_STARTUP_HOOK 0
 
@@ -111,6 +112,7 @@ For other frequency values, update clock_config.h with your own settings */
 #define INCLUDE_xTaskGetSchedulerState 0
 #define INCLUDE_xTaskGetCurrentTaskHandle 0
 #define INCLUDE_uxTaskGetStackHighWaterMark 0
+#define INCLUDE_uxTaskGetStackHighWaterMark2 1
 #define INCLUDE_xTaskGetIdleTaskHandle 0
 #define INCLUDE_eTaskGetState 0
 #define INCLUDE_xEventGroupSetBitFromISR 0

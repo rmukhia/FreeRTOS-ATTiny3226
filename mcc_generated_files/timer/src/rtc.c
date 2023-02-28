@@ -51,7 +51,7 @@ int8_t RTC_Initialize(void)
     RTC.PER = 0xFFFF;
 
     //Clock selection
-    RTC.CLKSEL = 0x0;
+    RTC.CLKSEL = 0x1;
 
     // CMP disabled; OVF enabled; 
     RTC.INTCTRL = 0x1;
@@ -65,8 +65,8 @@ int8_t RTC_Initialize(void)
     // PI enabled; 
 	RTC.PITINTCTRL = 0x1;
 
-    // PERIOD RTC Clock Cycles 256; PITEN enabled; 
-    RTC.PITCTRLA = 0x39;
+    // PERIOD RTC Clock Cycles 8; PITEN enabled; 
+    RTC.PITCTRLA = 0x11;
 
     return 0;
 }

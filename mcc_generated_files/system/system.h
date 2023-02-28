@@ -47,6 +47,8 @@ extern "C" {
 #include "../system/pins.h"
 #include "../i2c_client/twi0.h"
 #include "../timer/rtc.h"
+#include "../uart/usart1.h"
+#include "../vref/vref.h"
 #include "../system/interrupt.h"
 /**
  * @ingroup systemdriver

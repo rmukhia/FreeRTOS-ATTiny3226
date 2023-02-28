@@ -25,7 +25,6 @@
         <itemPath>FreeRTOS-Kernel/include/FreeRTOS.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="FreeRTOS-port" projectFiles="true">
-        <itemPath>FreeRTOS-port/porthardware.h</itemPath>
         <itemPath>FreeRTOS-port/portmacro.h</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
@@ -60,8 +59,19 @@
         <logicalFolder name="timer" displayName="timer" projectFiles="true">
           <itemPath>mcc_generated_files/timer/rtc.h</itemPath>
         </logicalFolder>
+        <logicalFolder name="uart" displayName="uart" projectFiles="true">
+          <itemPath>mcc_generated_files/uart/usart1.h</itemPath>
+          <itemPath>mcc_generated_files/uart/uart_types.h</itemPath>
+          <itemPath>mcc_generated_files/uart/uart_drv_interface.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="vref" displayName="vref" projectFiles="true">
+          <itemPath>mcc_generated_files/vref/vref.h</itemPath>
+        </logicalFolder>
       </logicalFolder>
       <itemPath>FreeRTOSConfig.h</itemPath>
+      <itemPath>src/time.h</itemPath>
+      <itemPath>config.h</itemPath>
+      <itemPath>src/bits.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -106,8 +116,19 @@
             <itemPath>mcc_generated_files/timer/src/rtc.c</itemPath>
           </logicalFolder>
         </logicalFolder>
+        <logicalFolder name="uart" displayName="uart" projectFiles="true">
+          <logicalFolder name="src" displayName="src" projectFiles="true">
+            <itemPath>mcc_generated_files/uart/src/usart1.c</itemPath>
+          </logicalFolder>
+        </logicalFolder>
+        <logicalFolder name="vref" displayName="vref" projectFiles="true">
+          <logicalFolder name="src" displayName="src" projectFiles="true">
+            <itemPath>mcc_generated_files/vref/src/vref.c</itemPath>
+          </logicalFolder>
+        </logicalFolder>
       </logicalFolder>
       <logicalFolder name="src" displayName="src" projectFiles="true">
+        <itemPath>src/time.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
     </logicalFolder>
@@ -115,7 +136,7 @@
                    displayName="Important Files"
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
-      <itemPath>WS3226.mc3</itemPath>
+      <itemPath>FreeRTOS-ATTiny3226.mc3</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
@@ -159,13 +180,13 @@
         <makeUseCleanTarget>false</makeUseCleanTarget>
         <makeCustomizationPreStep></makeCustomizationPreStep>
         <makeCustomizationPostStepEnabled>false</makeCustomizationPostStepEnabled>
-        <makeCustomizationPostStep></makeCustomizationPostStep>
+        <makeCustomizationPostStep>avr-size ${ImagePath}</makeCustomizationPostStep>
         <makeCustomizationPutChecksumInUserID>false</makeCustomizationPutChecksumInUserID>
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
       <AVR-AR>
-        <property key="archiver-flags" value="-r"/>
+        <property key="archiver-flags" value="-rcs"/>
       </AVR-AR>
       <AVR-AS>
         <property key="announce-version" value="false"/>
@@ -191,7 +212,7 @@
         <property key="make-warnings-into-errors" value="false"/>
         <property key="no-interrupts" value="false"/>
         <property key="no-system-directories" value="false"/>
-        <property key="optimization-level" value="-O1"/>
+        <property key="optimization-level" value="-O0"/>
         <property key="pack-struct" value="true"/>
         <property key="preprocess-only" value="false"/>
         <property key="preprocessor-macros" value=""/>
@@ -211,8 +232,7 @@
         <property key="call-prologues" value="false"/>
         <property key="default-bitfield-type" value="true"/>
         <property key="default-char-type" value="true"/>
-        <property key="extra-include-directories"
-                  value=".;src\include;FreeRTOS-Kernel\include;FreeRTOS-port"/>
+        <property key="extra-include-directories" value=""/>
         <property key="extra-warnings" value="false"/>
         <property key="garbage-collect-data" value="true"/>
         <property key="garbage-collect-functions" value="true"/>
@@ -220,7 +240,7 @@
         <property key="make-warnings-into-errors" value="false"/>
         <property key="no-interrupts" value="false"/>
         <property key="no-system-directories" value="false"/>
-        <property key="optimization-level" value="-Os"/>
+        <property key="optimization-level" value="-O1"/>
         <property key="pack-struct" value="true"/>
         <property key="preprocessor-macros" value=""/>
         <property key="preprocessor-macros-undefined" value=""/>
@@ -235,7 +255,8 @@
         <property key="verbose" value="false"/>
       </AVR-GCC>
       <AVR-Global>
-        <property key="common-include-directories" value=""/>
+        <property key="common-include-directories"
+                  value="FreeRTOS-Kernel\include;FreeRTOS-port;."/>
         <property key="eep" value="false"/>
         <property key="external-ram-check" value="false"/>
         <property key="hex" value="true"/>
@@ -251,7 +272,7 @@
         <property key="eeprom-segment" value=""/>
         <property key="exclude-standard-libraries" value="false"/>
         <property key="extra-lib-directories" value=""/>
-        <property key="flash-segment" value=""/>
+        <property key="flash-segment" value=".text=0"/>
         <property key="generate-map-file" value="true"/>
         <property key="initial-stack-address" value=""/>
         <property key="input-libraries" value="libm"/>
@@ -266,6 +287,20 @@
         <property key="v-printf" value="false"/>
       </AVR-LD>
       <item path="FreeRTOS-Kernel/stream_buffer.c" ex="true" overriding="false">
+        <AVR-AR>
+        </AVR-AR>
+        <AVR-AS>
+        </AVR-AS>
+        <AVR-AS-PRE>
+        </AVR-AS-PRE>
+        <AVR-CPP>
+        </AVR-CPP>
+        <AVR-GCC>
+        </AVR-GCC>
+        <AVR-Global>
+        </AVR-Global>
+        <AVR-LD>
+        </AVR-LD>
       </item>
       <Simulator>
         <property key="codecoverage.enabled" value="Disable"/>
@@ -276,9 +311,9 @@
         <property key="lastid" value=""/>
         <property key="oscillator.auxfrequency" value="120"/>
         <property key="oscillator.auxfrequencyunit" value="Mega"/>
-        <property key="oscillator.frequency" value="5"/>
+        <property key="oscillator.frequency" value="10"/>
         <property key="oscillator.frequencyunit" value="Mega"/>
-        <property key="oscillator.rcfrequency" value="250"/>
+        <property key="oscillator.rcfrequency" value="32768"/>
         <property key="oscillator.rcfrequencyunit" value="Kilo"/>
         <property key="periphADC1.altscl" value="false"/>
         <property key="periphADC1.minTacq" value=""/>
@@ -329,8 +364,9 @@
         <property key="usart0io.output" value="window"/>
         <property key="usart0io.outputfile" value=""/>
         <property key="usart0io.uartioenabled" value="false"/>
-        <property key="usart1io.output" value="window"/>
-        <property key="usart1io.outputfile" value=""/>
+        <property key="usart1io.output" value="file"/>
+        <property key="usart1io.outputfile"
+                  value="\\wsl.localhost\Ubuntu\home\rmukhia\uart1.log"/>
         <property key="usart1io.uartioenabled" value="true"/>
         <property key="usart2io.output" value="window"/>
         <property key="usart2io.outputfile" value=""/>
@@ -748,9 +784,9 @@
         <property key="lastid" value=""/>
         <property key="oscillator.auxfrequency" value="120"/>
         <property key="oscillator.auxfrequencyunit" value="Mega"/>
-        <property key="oscillator.frequency" value="5"/>
+        <property key="oscillator.frequency" value="10"/>
         <property key="oscillator.frequencyunit" value="Mega"/>
-        <property key="oscillator.rcfrequency" value="250"/>
+        <property key="oscillator.rcfrequency" value="32768"/>
         <property key="oscillator.rcfrequencyunit" value="Kilo"/>
         <property key="periphADC1.altscl" value="false"/>
         <property key="periphADC1.minTacq" value=""/>
@@ -801,8 +837,9 @@
         <property key="usart0io.output" value="window"/>
         <property key="usart0io.outputfile" value=""/>
         <property key="usart0io.uartioenabled" value="false"/>
-        <property key="usart1io.output" value="window"/>
-        <property key="usart1io.outputfile" value=""/>
+        <property key="usart1io.output" value="file"/>
+        <property key="usart1io.outputfile"
+                  value="\\wsl.localhost\Ubuntu\home\rmukhia\uart1.log"/>
         <property key="usart1io.uartioenabled" value="true"/>
         <property key="usart2io.output" value="window"/>
         <property key="usart2io.outputfile" value=""/>

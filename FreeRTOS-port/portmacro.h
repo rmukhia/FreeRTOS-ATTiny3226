@@ -36,6 +36,8 @@
 /* *INDENT-ON* */
 
 #include <avr/sleep.h>
+#include <avr/interrupt.h>
+#include "mcc_generated_files/system/utils/atomic.h"
 /*-----------------------------------------------------------
  * Port specific definitions.
  *
@@ -71,17 +73,39 @@ typedef unsigned char    UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-#define portENTER_CRITICAL()                     \
-    asm volatile ( "in __tmp_reg__, __SREG__" ); \
-    asm volatile ( "cli" );                      \
-    asm volatile ( "push __tmp_reg__" )
+#if 0
+#define portENTER_CRITICAL()                    \
+    asm volatile (                              \
+    "in __tmp_reg__, __SREG__" "\n\t"           \
+    "cli" "\n\t"                                \
+    "push __tmp_reg__" "\n\t"                   \
+    ::: "memory"                                \
+    )
 
-#define portEXIT_CRITICAL()             \
-    asm volatile ( "pop __tmp_reg__" ); \
-    asm volatile ( "out __SREG__, __tmp_reg__" )
-
-#define portDISABLE_INTERRUPTS()    asm volatile ( "cli" ::);
-#define portENABLE_INTERRUPTS()     asm volatile ( "sei" ::);
+#define portEXIT_CRITICAL()                     \
+    asm volatile (                              \
+    "pop __tmp_reg__"  "\n\t"                   \
+    "sei" "\n\t"                                \
+    "out __SREG__, __tmp_reg__"  "\n\t"         \
+    ::: "memory"                                
+    )
+    
+#define portDISABLE_INTERRUPTS()                \
+    asm volatile(                               \
+    "cli" "\n\t"                                \
+    )
+    
+#define portENABLE_INTERRUPTS()                 \
+    asm volatile(                               \
+    "sei" "\n\t"                                \
+    )
+    
+#else
+#define portENTER_CRITICAL()        ENTER_CRITICAL()
+#define portEXIT_CRITICAL()         EXIT_CRITICAL()
+#define portDISABLE_INTERRUPTS()    DISABLE_INTERRUPTS()
+#define portENABLE_INTERRUPTS()     ENABLE_INTERRUPTS()
+#endif
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
@@ -97,6 +121,8 @@ extern void vPortYield( void ) __attribute__( ( naked ) );
 
 extern void vPortYieldFromISR( void ) __attribute__( ( naked ) );
 #define portYIELD_FROM_ISR()    vPortYieldFromISR()
+
+extern void rtc_pit_callback(void);
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
