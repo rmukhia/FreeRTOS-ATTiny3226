@@ -213,8 +213,11 @@ static void prvSetupTimerInterrupt(void) {
  * the context is saved at the start of vPortYieldFromTick().  The tick
  * count is incremented after the context is saved.
  */
+void rtc_pit_callback(void) __attribute__((naked));
+
 void rtc_pit_callback(void) {
     vPortYieldFromTick();
+    asm volatile("ret");
 }
 
 #if 0 // this interrupt is handled by MCC auto generated code.

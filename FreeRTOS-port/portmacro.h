@@ -122,7 +122,7 @@ extern void vPortYield( void ) __attribute__( ( naked ) );
 extern void vPortYieldFromISR( void ) __attribute__( ( naked ) );
 #define portYIELD_FROM_ISR()    vPortYieldFromISR()
 
-extern void rtc_pit_callback(void);
+extern void rtc_pit_callback(void) __attribute__((naked));
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */

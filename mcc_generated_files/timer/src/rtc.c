@@ -32,6 +32,7 @@
 
 
 #include "../rtc.h"
+#include "../../system/utils/atomic.h"
 
 void (*RTC_OVF_isr_cb)(void) = NULL;
 void (*RTC_CMP_isr_cb)(void) = NULL;
@@ -96,7 +97,7 @@ void RTC_SetPITIsrCallback(RTC_cb_t cb)
     RTC_PIT_isr_cb = cb;
 }
 
-ISR(RTC_CNT_vect)
+ISR(RTC_CNT_vect, ISR_NAKED)
 {
     if (RTC.INTFLAGS & RTC_OVF_bm )
     {
@@ -114,15 +115,20 @@ ISR(RTC_CNT_vect)
         } 
     }  
     RTC.INTFLAGS = (RTC_OVF_bm | RTC_CMP_bm);
+    
+    asm volatile ("reti");
 }
 
-ISR(RTC_PIT_vect)
+ISR(RTC_PIT_vect, ISR_NAKED)
 {
    if (RTC_PIT_isr_cb != NULL) 
    {
     (*RTC_PIT_isr_cb)();
    } 
    RTC.PITINTFLAGS = RTC_PI_bm;
+   
+   asm volatile ("reti");
+
 }
 
 inline void RTC_WriteCounter(uint16_t timerVal)

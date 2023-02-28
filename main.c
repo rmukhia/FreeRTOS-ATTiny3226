@@ -10,9 +10,9 @@
 #include "src/time.h"
 #include "src/bits.h"
 
-#define HIGH_STACK()    {   \
-uint16_t high_mark = uxTaskGetStackHighWaterMark2(NULL); \
-printf("%u\n", high_mark); \
+#define HIGH_STACK(str)    {                                            \
+    uint16_t high_mark = uxTaskGetStackHighWaterMark2(NULL);            \
+    printf("%s: High Stack %u\r\n", str, high_mark);                    \
 }
 
 
@@ -27,12 +27,12 @@ TaskHandle_t side_task_hdl;
 portTASK_FUNCTION(main_task, pv)
 {
     while (true) {
-        uint16_t ms = millis();
-        printf("%u ms\r\n", ms);
+        time_t ms = millis();
+        printf("%lu ms\r\n", ms);
         vTaskDelay(pdMS_TO_TICKS(500));
         
-        //HIGH_STACK();
-        //portYIELD();
+        HIGH_STACK("main task");
+        portYIELD();
     }
 }
 
@@ -42,9 +42,7 @@ portTASK_FUNCTION(side_task, pv)
        IO_STATUSLED_Toggle();
        IO_WINDLED_Toggle();
        vTaskDelay(pdMS_TO_TICKS(500));
-       printf ("yeah\n");
-       IO_WINDLED_Toggle();
-       IO_STATUSLED_Toggle();
+       printf ("side task\r\n");
     }
 }
 
@@ -76,7 +74,7 @@ int main(void)
     xTaskCreate(
             main_task, 
             "main task",
-            512,
+            configMINIMAL_STACK_SIZE + 124,
             NULL,
             1,
             &main_task_hdl
@@ -85,7 +83,7 @@ int main(void)
         xTaskCreate(
             side_task, 
             "side task",
-            512,
+            configMINIMAL_STACK_SIZE + 124,
             NULL,
             2,
             &side_task_hdl

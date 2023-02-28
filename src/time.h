@@ -12,8 +12,9 @@
 extern "C" {
 #endif
 
-    uint16_t millis(void);
-    void rtc_ovf_callback(void);
+    typedef uint32_t time_t;
+    time_t millis(void);
+    void rtc_ovf_callback(void) __attribute__((naked));
 
 #ifdef	__cplusplus
 }

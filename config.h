@@ -18,7 +18,7 @@ extern "C" {
 /* Be sure to update the corresponding value for CLK_HZ and Period using 
  * graphical MCC or MCC generated files - timer/src/rtc.c */    
 #define WS_RTC_CLK_HZ               1024
-
+    
 
 
 #ifdef	__cplusplus
